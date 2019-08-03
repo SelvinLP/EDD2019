@@ -27,6 +27,7 @@ public class Lista_Bolsa {
         }else{
             Fin.siguiente=nuevo;
             Fin=nuevo;
+            nuevo.siguiente=Inicio;
         }
         
     }
