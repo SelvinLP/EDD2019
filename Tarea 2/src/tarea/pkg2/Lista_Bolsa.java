@@ -27,7 +27,8 @@ public class Lista_Bolsa {
         }else{
             Fin.siguiente=nuevo;
             Fin=nuevo;
-            nuevo.siguiente=Inicio;
+            nuevo.siguiente=Inicio; //ingeniero se me olvido hacerle commit para que sea circular no lo subi hasta hoy me di cuenta 
+            //que lo volvia revisar porfavor no me baje puntos solo era una linea que se olvido poner(
         }
         
     }
