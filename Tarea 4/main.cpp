@@ -15,8 +15,7 @@ class Nodo_A {
 };
 class Lista_A {
     public:
-        Nodo_A* inicio=new Nodo_A(-1,"raiz",-1);
-
+        Nodo_A* inicio=0;
         void mostrardia(int day){
             Nodo_A* tem=inicio;
             while(tem !=0){
@@ -87,6 +86,7 @@ class Lista_A {
                 nuevo->anterior=tem;
             }
             return nuevo;
+
         }
 
         Nodo_A* insertarOrdenadOY(Nodo_A* nuevo, Nodo_A* cabeza){
@@ -114,19 +114,18 @@ class Lista_A {
                     //se incerta despues para eso la bandera debe ser falsa
                     break;
                 }
-
-                if(bandera){
-                    //incertamos valores antes del temporal que es el encontrado
-                    nuevo->abajo=tem;
-                    tem->arriba->abajo=nuevo;
-                    nuevo->arriba=tem->arriba;
-                    tem->arriba=nuevo;
-                }else{
-                    tem->abajo=nuevo;
-                    nuevo->arriba=tem;
-                }
-                return nuevo;
             }
+            if(bandera){
+                //incertamos valores antes del temporal que es el encontrado
+                nuevo->abajo=tem;
+                tem->arriba->abajo=nuevo;
+                nuevo->arriba=tem->arriba;
+                tem->arriba=nuevo;
+            }else{
+                tem->abajo=nuevo;
+                nuevo->arriba=tem;
+            }
+            return nuevo;
         }
 
         Nodo_A* crearColumnaX(int valorx){
@@ -142,43 +141,39 @@ class Lista_A {
         }
 
         void InsertarActividad(int horaY,int diaX, string actividad){
+            //crecion de nuevo nodo con los datos
+            Nodo_A* nuevo=new Nodo_A(diaX,actividad,horaY);
 
-
-        //crecion de nuevo nodo con los datos
-        Nodo_A* nuevo=new Nodo_A(diaX,actividad,horaY);
-        Nodo_A* columna=buscarX(diaX);
-        Nodo_A* fila=buscarY(horaY);
-        //casos de insercion
-        //primer caso columna y fila no existe
-        if(columna==0 && fila==0){
+            Nodo_A* columna=buscarX(diaX);
+            Nodo_A* fila=buscarY(horaY);
+            //casos de insercion
+            //primer caso columna y fila no existe
+            if(columna==0 && fila==0){
             columna=crearColumnaX(diaX);
             fila=crearFilaY(horaY);
-            nuevo=insertarOrdenadOX(nuevo,columna);
-            nuevo=insertarOrdenadOY(nuevo,fila);
-
-        }else{
-            //segundo caso de inserccion columna no exista y fila si
-            if(columna==0 && fila!=0){
-                columna=crearColumnaX(diaX);
-                nuevo=insertarOrdenadOX(nuevo,columna);
-                nuevo=insertarOrdenadOY(nuevo,fila);
-
             }else{
-                //tercer caso de inserccion columna exosta y fila no exista
-                if(columna!=0 && fila==0){
-                    fila=crearFilaY(horaY);
+                //segundo caso de inserccion columna no exista y fila si
+                if(columna==0 && fila!=0){
+                    columna=crearColumnaX(diaX);
                     nuevo=insertarOrdenadOX(nuevo,columna);
                     nuevo=insertarOrdenadOY(nuevo,fila);
 
                 }else{
-                    //cuarto caso de inserccion columna exista y fila exista
-                    if(columna!=0 && fila!=0){
+                    //tercer caso de inserccion columna exosta y fila no exista
+                    if(columna!=0 && fila==0){
+                        fila=crearFilaY(horaY);
                         nuevo=insertarOrdenadOX(nuevo,columna);
                         nuevo=insertarOrdenadOY(nuevo,fila);
+
+                    }else{
+                        //cuarto caso de inserccion columna exista y fila exista
+                        if(columna!=0 && fila!=0){
+                            nuevo=insertarOrdenadOX(nuevo,columna);
+                            nuevo=insertarOrdenadOY(nuevo,fila);
+                        }
                     }
                 }
             }
-        }
 
         //fin de casis de inserccion
     }
@@ -187,8 +182,8 @@ int main()
 {
     int pausa=0;
     Lista_A* listap=new Lista_A();
+    listap->inicio=new Nodo_A(-1,"Raiz",-1);
     while(pausa==0){
-
         cout << "Tarea 4 Clase 201701133" << endl;
         cout << "1.Ingresar Actividad" << endl;
         cout << "2. Mostrar Actividad" << endl;
@@ -233,4 +228,5 @@ int main()
                 pausa=1;
         }
     }
+    return 0;
 }
