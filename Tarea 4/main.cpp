@@ -17,6 +17,16 @@ class Lista_A {
     public:
         Nodo_A* inicio=new Nodo_A(-1,"raiz",-1);
 
+        void mostrardia(int day){
+            Nodo_A* tem=inicio;
+            while(tem !=0){
+                if(tem->dia==day){
+                    cout << "Hora: "<<tem->hora <<"  Actividad:  "<<tem->actvi << endl;
+                }
+                tem=tem->siguiente;
+            }
+        }
+
         Nodo_A* buscarY (int valory){
             Nodo_A* tem=inicio;
             while(tem !=0){
@@ -107,7 +117,7 @@ class Lista_A {
 
                 if(bandera){
                     //incertamos valores antes del temporal que es el encontrado
-                    nuevo->abajoe=tem;
+                    nuevo->abajo=tem;
                     tem->arriba->abajo=nuevo;
                     nuevo->arriba=tem->arriba;
                     tem->arriba=nuevo;
@@ -121,17 +131,19 @@ class Lista_A {
 
         Nodo_A* crearColumnaX(int valorx){
             Nodo_A* raizColumna=inicio;
-            Nodo_A* columna=insertarOrdenadOX(Nodo_A(valorx,"COL",-1),raizColumna);
+            Nodo_A* columna=insertarOrdenadOX(new Nodo_A(valorx,"COL",-1),raizColumna);
             return columna;
         }
 
-        Nodo_A* crearFilaY(Nodo_A* valory){
+        Nodo_A* crearFilaY(int valory){
             Nodo_A* raizFila=inicio;
-            Nodo_A* fila=insertarOrdenadOY(Nodo_A(valory,"FILA",-1),raizFila);
+            Nodo_A* fila=insertarOrdenadOY(new Nodo_A(-1,"FILA",valory),raizFila);
             return fila;
         }
 
         void InsertarActividad(int horaY,int diaX, string actividad){
+
+
         //crecion de nuevo nodo con los datos
         Nodo_A* nuevo=new Nodo_A(diaX,actividad,horaY);
         Nodo_A* columna=buscarX(diaX);
@@ -208,7 +220,7 @@ int main()
                 int dia;
                 cin >> dia;
                 cout << "Imprimiendo actividades del dia: "<<dia << endl;
-
+                listap->mostrardia(dia);
             }
             if(opcion2==2){
 
