@@ -1,0 +1,4 @@
+digraph Grafica { 
+size="9,9" 
+node[shape=record,style=filled] 
+"Raiz-1"[label ="{

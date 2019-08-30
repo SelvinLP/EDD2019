@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1567138176 source:c:\users\aragon perez\documents\estructura de datos\edd2019\tarea5\main.cpp
+	<stdlib.h>
+	<iostream>
+	<fstream>
+
