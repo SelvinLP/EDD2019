@@ -4,44 +4,27 @@ node[shape=record,style=filled]
 "Raiz"[label ="{Raiz}"] 
 "Hora: 1"[label ="{Hora: 1}" ] 
 "Hora: 2"[label ="{Hora: 2}" ] 
-"Hora: 5"[label ="{Hora: 5}" ] 
 "Dia: 1"[label ="{Dia: 1}"] 
-"si"[label ="{si}" ] 
 "no"[label ="{no}" ] 
-"Dia: 3"[label ="{Dia: 3}"] 
+"Dia: 2"[label ="{Dia: 2}"] 
 "si2"[label ="{si2}" ] 
-"Dia: 4"[label ="{Dia: 4}"] 
-"no2"[label ="{no2}" ] 
-{rank = same;"Raiz";"Dia: 1";"Dia: 3";"Dia: 4";}
-{rank = same;"Hora: 1";"si";"si2";}
-{rank = same;"Hora: 2";"no2";}
-{rank = same;"Hora: 5";"no";}
+{rank = same;"Raiz";"Dia: 1";"Dia: 2";}
+{rank = same;"Hora: 1";"no";}
+{rank = same;"Hora: 2";"si2";}
 "Raiz" -> "Hora: 1"
 "Raiz" -> "Hora: 1"[dir=back]
 "Raiz" -> "Dia: 1"[constraint=false]
-"Raiz" -> "Dia: 1"[constraint=false ,dir=back]
+"Raiz" -> "Dia: 1"[constraint=false,dir=back]
 "Hora: 1" -> "Hora: 2"
 "Hora: 1" -> "Hora: 2"[dir=back]
-"Hora: 1" -> "si"[constraint=false]
-"Hora: 1" -> "si"[constraint=false ,dir=back]
-"Hora: 2" -> "Hora: 5"
-"Hora: 2" -> "Hora: 5"[dir=back]
-"Hora: 2" -> "no2"[constraint=false]
-"Hora: 2" -> "no2"[constraint=false ,dir=back]
-"Hora: 5" -> "no"[constraint=false]
-"Hora: 5" -> "no"[constraint=false ,dir=back]
-"Dia: 1" -> "si"
-"Dia: 1" -> "si"[dir=back]
-"Dia: 1" -> "Dia: 3"[constraint=false]
-"Dia: 1" -> "Dia: 3"[constraint=false ,dir=back]
-"si" -> "no"
-"si" -> "no"[dir=back]
-"si" -> "si2"[constraint=false]
-"si" -> "si2"[constraint=false ,dir=back]
-"Dia: 3" -> "si2"
-"Dia: 3" -> "si2"[dir=back]
-"Dia: 3" -> "Dia: 4"[constraint=false]
-"Dia: 3" -> "Dia: 4"[constraint=false ,dir=back]
-"Dia: 4" -> "no2"
-"Dia: 4" -> "no2"[dir=back]
+"Hora: 1" -> "no"[constraint=false]
+"Hora: 1" -> "no"[constraint=false,dir=back]
+"Hora: 2" -> "si2"[constraint=false]
+"Hora: 2" -> "si2"[constraint=false,dir=back]
+"Dia: 1" -> "no"
+"Dia: 1" -> "no"[dir=back]
+"Dia: 1" -> "Dia: 2"[constraint=false]
+"Dia: 1" -> "Dia: 2"[constraint=false,dir=back]
+"Dia: 2" -> "si2"
+"Dia: 2" -> "si2"[dir=back]
 }
