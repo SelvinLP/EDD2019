@@ -21,11 +21,12 @@ class Lista_A {
 
         void CargaDatos(std::string ruta){
             std::ifstream archivo;
-            archivo.open(ruta,ios::in);
+            archivo.open(ruta);
             if(archivo.fail()){
                 std::cout << "No se pudo abrir el archivo"<< std::endl;
                 exit(1);
             }else{
+                std::cout << "Se abrio Correctamente"<< std::endl;
             }
         }
         void Imprimir(){
