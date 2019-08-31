@@ -1,30 +1,54 @@
 digraph Grafica { 
 size="9,9" 
 node[shape=record,style=filled] 
-"Raiz"[label ="{Raiz}"] 
-"Hora: 1"[label ="{Hora: 1}" ] 
-"Hora: 2"[label ="{Hora: 2}" ] 
-"Dia: 1"[label ="{Dia: 1}"] 
-"no"[label ="{no}" ] 
-"Dia: 2"[label ="{Dia: 2}"] 
-"si2"[label ="{si2}" ] 
-{rank = same;"Raiz";"Dia: 1";"Dia: 2";}
-{rank = same;"Hora: 1";"no";}
-{rank = same;"Hora: 2";"si2";}
+"Raiz"[label ="{Raiz}",group = 1] 
+"Hora: 1"[label ="{Hora: 1}" ,group = 1 ] 
+"Hora: 2"[label ="{Hora: 2}" ,group = 1 ] 
+"Hora: 3"[label ="{Hora: 3}" ,group = 1 ] 
+"Hora: 4"[label ="{Hora: 4}" ,group = 1 ] 
+"Dia: 1"[label ="{Dia: 1}",group = 2] 
+"s"[label ="{s}" ,group = 2 ] 
+"Dia: 2"[label ="{Dia: 2}",group = 3] 
+"si"[label ="{si}" ,group = 3 ] 
+"Dia: 3"[label ="{Dia: 3}",group = 4] 
+"ni"[label ="{ni}" ,group = 4 ] 
+"Dia: 4"[label ="{Dia: 4}",group = 5] 
+"s2"[label ="{s2}" ,group = 5 ] 
+{rank = same;"Raiz";"Dia: 1";"Dia: 2";"Dia: 3";"Dia: 4";}
+{rank = same;"Hora: 1";"si";}
+{rank = same;"Hora: 2";"ni";}
+{rank = same;"Hora: 3";"s2";}
+{rank = same;"Hora: 4";"s";}
 "Raiz" -> "Hora: 1"
 "Raiz" -> "Hora: 1"[dir=back]
-"Raiz" -> "Dia: 1"[constraint=false]
-"Raiz" -> "Dia: 1"[constraint=false,dir=back]
+"Raiz" -> "Dia: 1"
+"Raiz" -> "Dia: 1"[dir=back]
 "Hora: 1" -> "Hora: 2"
 "Hora: 1" -> "Hora: 2"[dir=back]
-"Hora: 1" -> "no"[constraint=false]
-"Hora: 1" -> "no"[constraint=false,dir=back]
-"Hora: 2" -> "si2"[constraint=false]
-"Hora: 2" -> "si2"[constraint=false,dir=back]
-"Dia: 1" -> "no"
-"Dia: 1" -> "no"[dir=back]
-"Dia: 1" -> "Dia: 2"[constraint=false]
-"Dia: 1" -> "Dia: 2"[constraint=false,dir=back]
-"Dia: 2" -> "si2"
-"Dia: 2" -> "si2"[dir=back]
+"Hora: 1" -> "si"
+"Hora: 1" -> "si"[dir=back]
+"Hora: 2" -> "Hora: 3"
+"Hora: 2" -> "Hora: 3"[dir=back]
+"Hora: 2" -> "ni"
+"Hora: 2" -> "ni"[dir=back]
+"Hora: 3" -> "Hora: 4"
+"Hora: 3" -> "Hora: 4"[dir=back]
+"Hora: 3" -> "s2"
+"Hora: 3" -> "s2"[dir=back]
+"Hora: 4" -> "s"
+"Hora: 4" -> "s"[dir=back]
+"Dia: 1" -> "s"
+"Dia: 1" -> "s"[dir=back]
+"Dia: 1" -> "Dia: 2"
+"Dia: 1" -> "Dia: 2"[dir=back]
+"Dia: 2" -> "si"
+"Dia: 2" -> "si"[dir=back]
+"Dia: 2" -> "Dia: 3"
+"Dia: 2" -> "Dia: 3"[dir=back]
+"Dia: 3" -> "ni"
+"Dia: 3" -> "ni"[dir=back]
+"Dia: 3" -> "Dia: 4"
+"Dia: 3" -> "Dia: 4"[dir=back]
+"Dia: 4" -> "s2"
+"Dia: 4" -> "s2"[dir=back]
 }

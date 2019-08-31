@@ -32,10 +32,8 @@ class Lista_A {
                     for (std::string dato; std::getline(registro, dato, ';'); )
                     {
                         if(dato!="x" && dato!="X"){
-                            std::cout << "Insertar en Dia: "<<x<<"  Hora: "<<y<<"  Actividad: "<<dato << std::endl;
                             InsertarActividad(y,x,dato);
                         }
-                        std::cout << dato << std::endl;
 
                         x+=1;
                     }
@@ -50,25 +48,34 @@ class Lista_A {
             Nodo_A* tem=inicio;
             Nodo_A* tem2=0;
             int a=1;
-
+            int grup=1;
 
             std::string Cadenaant="";
             std::string Cadenades="";
             std::string CadenaImprimir= "digraph Grafica { \n";
             CadenaImprimir += "size=\"9,9\" \n";
             CadenaImprimir += "node[shape=record,style=filled] \n" ;
-
+            //creacion de nodos
             while(tem !=0){
+                std::stringstream ss;
+                std::string stconver;
+                ss.str(std::string());
+                ss.clear();
+                ss<<grup;
+                ss>>stconver;
+
+
+
                 tem2=tem;
                 CadenaImprimir +=  "\""+ tem->actvi+"\"" +"[label ="+"\""+"{";
-                CadenaImprimir +=  tem->actvi+ "}\"] \n" ;
+                CadenaImprimir +=  tem->actvi+ "}\",group = "+stconver+"] \n" ;
                 tem2=tem2->abajo;
                 while(tem2!=0){
                     CadenaImprimir +=  "\""+ tem2->actvi+"\"" +"[label ="+"\""+"{";
-                    CadenaImprimir +=  tem2->actvi+ "}\" ] \n" ;
-
+                    CadenaImprimir +=  tem2->actvi+ "}\" ,group = "+stconver+" ] \n" ;
                     tem2=tem2->abajo;
                 }
+                grup+=1;
                 tem=tem->siguiente;
             }
             //cracion de relaciones
@@ -87,16 +94,23 @@ class Lista_A {
             tem=inicio;
             while(tem !=0){
                 tem2=tem;
+                //if(tem2->siguiente!=0){
+                  //  CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false]\n";
+                    //CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false,dir=back]\n";
+                //}
                 while(tem2!=0){
                     if(tem2->abajo!=0){
                         CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->abajo->actvi+"\""+"\n";
                         CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->abajo->actvi+"\""+"[dir=back]\n";
                     }
                     if(tem2->siguiente!=0){
-                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false]\n";
-                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false,dir=back]\n";
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"\n";
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[dir=back]\n";
                     }
+
+
                     tem2=tem2->abajo;
+
                 }
                 tem=tem->siguiente;
             }
@@ -299,14 +313,12 @@ class Lista_A {
             //casos de insercion
             //primer caso columna y fila no existe
             if(columna==0 && fila==0){
-                std::cout << "crea c y f"<< std::endl;
                 columna=crearColumnaX(diaX);
                 fila=crearFilaY(horaY);
                 insertarenX(nuevo,columna);
                 insertarenY(nuevo,fila);
             }else{
                 if(columna!=0 && fila==0){
-                    std::cout << "crea f"<< std::endl;
                     //segundo caso si columna existe
                     fila=crearFilaY(horaY);
                     insertarenX(nuevo,columna);
@@ -314,14 +326,12 @@ class Lista_A {
                 }
                 else{
                     if(columna==0 && fila!=0){
-                        std::cout << "crea c "<< std::endl;
                         //tercer caso si fila existe
                         columna=crearColumnaX(diaX);
                         insertarenX(nuevo,columna);
                         insertarenY(nuevo,fila);
                     }else{
                         if(columna!=0 && fila!=0){
-                           std:: cout << "no crea c y f"<< std::endl;
                             //si los dos existen
                             insertarenX(nuevo,columna);
                             insertarenY(nuevo,fila);
@@ -337,9 +347,6 @@ int main()
     int pausa=0;
     Lista_A* listap=new Lista_A();
     listap->inicio=new Nodo_A(-1,"Raiz",-1);
-
-    listap->InsertarActividad(2,2,"si2");
-    listap->InsertarActividad(1,1,"no");
 
 
     while(pausa==0){
