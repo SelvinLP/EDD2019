@@ -19,6 +19,15 @@ class Lista_A {
     public:
         Nodo_A* inicio=0;
 
+        void CargaDatos(std::string ruta){
+            std::ifstream archivo;
+            archivo.open(ruta,ios::in);
+            if(archivo.fail()){
+                std::cout << "No se pudo abrir el archivo"<< std::endl;
+                exit(1);
+            }else{
+            }
+        }
         void Imprimir(){
             std::ofstream file;
             file.open("Grafica.dot");
@@ -26,33 +35,62 @@ class Lista_A {
             Nodo_A* tem2=0;
             int a=1;
 
-            std::stringstream ss;
-            ss.str(std::string());
-            ss.clear();
-            ss<<tem->hora;
 
+            std::string Cadenaant="";
+            std::string Cadenades="";
             std::string CadenaImprimir= "digraph Grafica { \n";
             CadenaImprimir += "size=\"9,9\" \n";
+            //CadenaImprimir += "rankdir=LR \n";
             CadenaImprimir += "node[shape=record,style=filled] \n" ;
-            CadenaImprimir +=  "\""+ tem->actvi+ss.str()+"\"" +"[label ="+"\""+"{";
-            //CadenaImprimir = CadenaImprimir + " Hora: "+tem->actvi+ '}"]' + '\n';
 
-            //tem=tem->siguiente;
-            //while(tem !=0){
-              //  tem2=tem;
-               // while(tem2!=0){
-                 //   cout << "Hora: "<<tem2->hora <<"  Actividad:  "<<tem2->actvi <<"  dia:  "<<tem2->dia << endl;
-                   // tem2=tem2->abajo;
-                //}
-                //tem=tem->siguiente;
-            //}
+            while(tem !=0){
+                tem2=tem;
+                CadenaImprimir +=  "\""+ tem->actvi+"\"" +"[label ="+"\""+"{";
+                CadenaImprimir +=  tem->actvi+ "}\"] \n" ;
+                tem2=tem2->abajo;
+                while(tem2!=0){
+                    CadenaImprimir +=  "\""+ tem2->actvi+"\"" +"[label ="+"\""+"{";
+                    CadenaImprimir +=  tem2->actvi+ "}\" ] \n" ;
 
-            //file << "primera línea\n";
-            //file << "segunda línea\n";
-            //file << "tercera línea\n";
-            file<< CadenaImprimir;
-            //system("Grafica.dot");
+                    tem2=tem2->abajo;
+                }
+                tem=tem->siguiente;
+            }
+            //cracion de relaciones
+            tem=inicio;
+            while(tem!=0){
+                    tem2=tem;
+                    CadenaImprimir+="{rank = same;";
+                    while(tem2!=0){
+                         CadenaImprimir+="\""+ tem2->actvi+"\";";
+                        tem2=tem2->siguiente;
+                    }
+                    CadenaImprimir+="}\n";
+                tem=tem->abajo;
+            }
+            //fon de posicionamiento
+            tem=inicio;
+            while(tem !=0){
+                tem2=tem;
+                while(tem2!=0){
+                    if(tem2->abajo!=0){
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->abajo->actvi+"\""+"\n";
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->abajo->actvi+"\""+"[dir=back]\n";
+                    }
+                    if(tem2->siguiente!=0){
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false]\n";
+                        CadenaImprimir+="\""+ tem2->actvi+"\" -> \""+ tem2->siguiente->actvi+"\""+"[constraint=false ,dir=back]\n";
+                    }
+                    tem2=tem2->abajo;
+                }
+                tem=tem->siguiente;
+            }
+
+            CadenaImprimir+="}";
+            file<<CadenaImprimir;
             file.close();
+            system("dot -Tpng Grafica.dot -o  Grafica.png");
+            system("Start Grafica.png");
         }
 
         void mostrardia(int day){
@@ -71,14 +109,14 @@ class Lista_A {
         void mostrartodo(){
             Nodo_A* tem=inicio;
             Nodo_A* tem2=0;
-            tem=tem->siguiente;
+            tem=tem->abajo;
             while(tem !=0){
                 tem2=tem;
                 while(tem2!=0){
                     std::cout << "Hora: "<<tem2->hora <<"  Actividad:  "<<tem2->actvi <<"  dia:  "<<tem2->dia << std::endl;
-                    tem2=tem2->abajo;
+                    tem2=tem2->siguiente;
                 }
-                tem=tem->siguiente;
+                tem=tem->abajo;
             }
         }
 
@@ -106,10 +144,17 @@ class Lista_A {
     }
 
         Nodo_A* crearColumnaX(int valorx){
+            std::stringstream ss;
+            std::string stconver;
+            ss.str(std::string());
+            ss.clear();
+            ss<<valorx;
+            ss>>stconver;
+
             Nodo_A* raizColumna=inicio;
             Nodo_A* tem=inicio;
             Nodo_A* fin=0;
-            Nodo_A* nuevos=new Nodo_A(valorx,"COL",-1);
+            Nodo_A* nuevos=new Nodo_A(valorx,("Dia: "+stconver),-1);
             bool bandera=false;
             while(raizColumna!=0){
                 if(raizColumna->dia > valorx){
@@ -135,10 +180,17 @@ class Lista_A {
         }
 
         Nodo_A* crearFilaY(int valory){
+            std::stringstream ss;
+            std::string stconver;
+            ss.str(std::string());
+            ss.clear();
+            ss<<valory;
+            ss>>stconver;
+
             Nodo_A* raizFila=inicio;
             Nodo_A* tem=inicio;
             Nodo_A* fin=0;
-            Nodo_A* nuevo=new Nodo_A(-1,"FIL",valory);
+            Nodo_A* nuevo=new Nodo_A(-1,("Hora: "+stconver),valory);
             bool bandera=false;
             while(raizFila!=0){
                 if(raizFila->hora>valory){
@@ -229,14 +281,14 @@ class Lista_A {
             //casos de insercion
             //primer caso columna y fila no existe
             if(columna==0 && fila==0){
-                std::cout << "crea c y f"<< std::endl;
+                //std::cout << "crea c y f"<< std::endl;
                 columna=crearColumnaX(diaX);
                 fila=crearFilaY(horaY);
                 insertarenX(nuevo,columna);
                 insertarenY(nuevo,fila);
             }else{
                 if(columna!=0 && fila==0){
-                    std::cout << "crea f"<< std::endl;
+                    //std::cout << "crea f"<< std::endl;
                     //segundo caso si columna existe
                     fila=crearFilaY(horaY);
                     insertarenX(nuevo,columna);
@@ -244,14 +296,14 @@ class Lista_A {
                 }
                 else{
                     if(columna==0 && fila!=0){
-                        std::cout << "crea c "<< std::endl;
+                        //std::cout << "crea c "<< std::endl;
                         //tercer caso si fila existe
                         columna=crearColumnaX(diaX);
                         insertarenX(nuevo,columna);
                         insertarenY(nuevo,fila);
                     }else{
                         if(columna!=0 && fila!=0){
-                           std:: cout << "no crea c y f"<< std::endl;
+                           //std:: cout << "no crea c y f"<< std::endl;
                             //si los dos existen
                             insertarenX(nuevo,columna);
                             insertarenY(nuevo,fila);
@@ -267,12 +319,17 @@ int main()
     int pausa=0;
     Lista_A* listap=new Lista_A();
     listap->inicio=new Nodo_A(-1,"Raiz",-1);
-    listap->Imprimir();
+    listap->InsertarActividad(1,1,"si");
+    listap->InsertarActividad(1,3,"si2");
+    listap->InsertarActividad(5,1,"no");
+    listap->InsertarActividad(2,4,"no2");
     while(pausa==0){
         std::cout << "Tarea 4 Clase 201701133" << std::endl;
         std::cout << "1.Ingresar Actividad" << std::endl;
         std::cout << "2. Mostrar Actividad" << std::endl;
-        std::cout << "3. Salir" << std::endl;
+        std::cout << "3. Graficar" << std::endl;
+        std::cout << "4. Carga Masiva" << std::endl;
+        std::cout << "5. Salir" << std::endl;
         std::cout << "Ingrese una Opcion" << std::endl;
         int opcion;
         std::cin >> opcion;
@@ -296,10 +353,10 @@ int main()
             int opcion2;
             std::cin >> opcion2;
             if(opcion2==1){
-               std:: cout << "Ingrese un dia" <<std:: endl;
+                std:: cout << "Ingrese un dia" <<std:: endl;
                 int dia;
                 std::cin >> dia;
-               std:: cout << "Imprimiendo actividades del dia: "<<dia << std::endl;
+                std:: cout << "Imprimiendo actividades del dia: "<<dia << std::endl;
                 listap->mostrardia(dia);
             }
             if(opcion2==2){
@@ -310,6 +367,16 @@ int main()
 
         }
         if(opcion==3){
+            std::cout << "Graficando Actividades "<< std::endl;
+            listap->Imprimir();
+        }
+        if(opcion==4){
+            std:: cout << "Ingrese ruta o nombre del documento" <<std:: endl;
+            std::string ruta;
+            std::cin >> ruta;
+            listap->CargaDatos(ruta);
+        }
+        if(opcion==5){
                 pausa=1;
         }
     }
